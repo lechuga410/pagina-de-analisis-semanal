@@ -1,0 +1,29 @@
+body{
+    text-align: center;
+    font-family: cursive;
+}
+#resumen-final {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    font-family: cursive;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    border: 1px solid #ccc;
+}
+#resumen-final strong {
+    color: #333;
+}
+body{background-color: beige;
+
+    
+}
+button{border-radius: 10px;
+    background-color: #f9f9f9;
+    
+
+}
+
+select{border-radius: 10px;
+    
+}

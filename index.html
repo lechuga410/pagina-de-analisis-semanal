@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>analisis rapidos semanales</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+    <header id="header">
+        <h1>Formulario de análisis semanales</h1>
+    </header>
+
+
+    <section id="campo" class="semana">
+        <label for="semana">Selecciona la semana en la que se encuentra</label><br>
+        <select id="📅 semana">
+            <option value="1">Semana 1</option>
+            <option value="2">Semana 2</option>
+            <option value="3">Semana 3</option>
+            <option value="4">Semana 4</option>
+            <option value="5">Semana 5</option>
+        </select>
+    </section><br>
+
+    <form onsubmit="calcularTotalsuma(); return false;">
+        <label for="operaciones-ganadas">Operaciones ganadas:</label><br>
+        <input type="text" id="✅ operaciones-ganadas" name="operaciones-ganadas" placeholder=" +20.08 +5.00"><br>
+        <button type="submit">Calcular total</button>
+        <p id="resultado"></p>
+    </form>
+
+    
+   <form onsubmit="calcularTotalresta(); return false;">
+        <label for="operaciones-perdidas">Operaciones perdidas:</label><br>
+        <input type="text" id="❌ operaciones-perdidas" placeholder="-2.47 -2.51"><br>
+        <button type="submit">calcular total</button>
+        <p id="resultado2"></p>
+    </form>
+
+    <label for="operaciones-breakeven">operaciones en breakeven</label><br>
+    <input type="text" id="➖ operaciones-breakeven" placeholder="0.00"><br>
+
+    <label for="cantidad-operaciones">numero de operaciones</label><br>
+    <input type="text" id="🔢 cantidad-operaciones" placeholder="0"><br>
+
+    <section class="comprension-mercado"><br>
+        <label id="real" for="comprension-en-tiempo-real">compresion del mercado en tiempo real</label>
+        <select name="comprension-en-tiempo-real" id="🎯 comprension-en-tiempo-real" >
+            <option value="baja-baja">baja-baja</option>
+            <option value="baja-media">baja-media</option>
+            <option value="baja-alta">baja-alta</option>
+            <option value="media-baja">media-baja</option>
+            <option value="media-media">media-media</option>
+            <option value="media-alta">media-alta</option>
+            <option value="alta-baja">alta-baja</option>
+            <option value="alta-media">alta-media</option>
+            <option value="alta-alta">alta-alta</option>
+        </select>
+    </section><br>
+
+    <section class="compresion-pos-mercado">
+        <label id="pos" for="comprension-pos-mercado">compresion del mercado los domingos post semana</label>
+        <select name="comprension-pos-mercado" id="📊 comprension-pos-mercado">
+            <option class="baja" value="baja-baja">baja-baja</option>
+            <option class="baja" value="baja-media">baja-media</option>
+            <option class="baja" value="baja-alta">baja-alta</option>
+            <option class="media" value="media-baja">media-baja</option>
+            <option class="media" value="media-media">media-media</option>
+            <option class="media" value="media-alta">media-alta</option>
+            <option class="alta" value="alta-baja">alta-baja</option>
+            <option class="alta" value="alta-media">alta-media</option>
+            <option class="alta" value="alta-alta">alta-alta</option>
+        </select>
+
+    </section><br>
+    
+    <section>
+        <label for="tipo-error">Tipo de error:</label>
+        <select id="tipo-error">
+            <option value="Reentrada">Reentrada</option>
+            <option value="Sobre-complicación">Sobre complicación</option>
+            <option value="Timing-adelantado">Timing adelantado</option>
+            <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
+            <option value="Reducir-el-sl-sin-razón-válida">reducir el sl sin razon valida</option>
+        </select>
+
+        <label for="cantidad-error"> Número de veces:</label>
+        <input type="number" id="cantidad-error" min="1" placeholder="Ej: 2">
+
+        <button onclick="agregarError()">Agregar error</button>
+
+        <ul id="⚠️ lista-errores"></ul>
+    </section>
+
+    <button onclick="calcularTasaAciertos()">Calcular tasa de aciertos</button>
+    <p id="📈 resultado-tasa"></p>
+
+    <button onclick="calcularMargen()">Calcular margen neto</button>
+    <p id="💰 resultado-margen"></p>
+
+    <button onclick="generarResumen()">Generar resumen final</button>
+    <pre id="resumen-final"></pre>
+
+    <!-- Agrega este botón debajo de "Generar resumen final" -->
+    <button onclick="generarImagen()">Descargar imagen del resumen</button>
+
+    <footer>
+        <p>© 2023 Análisis Semanal. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+
+
+</html>
