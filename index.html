@@ -18,7 +18,7 @@
 
     <section id="campo" class="semana">
         <label for="semana">Selecciona la semana en la que se encuentra</label><br>
-        <select id="📅 semana">
+        <select id="semana">
             <option value="1">Semana 1</option>
             <option value="2">Semana 2</option>
             <option value="3">Semana 3</option>
@@ -27,30 +27,41 @@
         </select>
     </section><br>
 
-    <form onsubmit="calcularTotalsuma(); return false;">
-        <label for="operaciones-ganadas">Operaciones ganadas:</label><br>
-        <input type="text" id="✅ operaciones-ganadas" name="operaciones-ganadas" placeholder=" +20.08 +5.00"><br>
-        <button type="submit">Calcular total</button>
-        <p id="resultado"></p>
-    </form>
+ <form onsubmit="calcularTotalsuma(); return false;">
+    <label>Operaciones ganadas:</label><br>
+    <input type="text" id="nueva-operacion" placeholder="Agregar operación">
+    <button type="button" onclick="agregarOperacion()">Agregar operación</button>
+    <input type="hidden" id="operaciones-ganadas">
+    <button type="submit">Calcular total</button>
+    <p id="lista-operaciones"></p>
+    <p id="resultado"></p>
+</form>
 
     
    <form onsubmit="calcularTotalresta(); return false;">
         <label for="operaciones-perdidas">Operaciones perdidas:</label><br>
-        <input type="text" id="❌ operaciones-perdidas" placeholder="-2.47 -2.51"><br>
-        <button type="submit">calcular total</button>
+
+        <input type="text" id="nueva-operacion-perdida" placeholder="Agregar operación perdida">
+        <button type="button" onclick="agregarOperacionPerdida()">Agregar operación perdida</button>
+
+       <input type="hidden" id="operaciones-perdidas">
+
+
+        <button type="submit">Calcular total</button>
+
+        <p id="lista-operaciones-perdidas"></p>
         <p id="resultado2"></p>
     </form>
 
     <label for="operaciones-breakeven">operaciones en breakeven</label><br>
-    <input type="text" id="➖ operaciones-breakeven" placeholder="0.00"><br>
+    <input type="text" id="operaciones-breakeven" placeholder="0.00"><br>
 
     <label for="cantidad-operaciones">numero de operaciones</label><br>
-    <input type="text" id="🔢 cantidad-operaciones" placeholder="0"><br>
+    <input type="text" id="cantidad-operaciones" placeholder="0"><br>
 
     <section class="comprension-mercado"><br>
         <label id="real" for="comprension-en-tiempo-real">compresion del mercado en tiempo real</label>
-        <select name="comprension-en-tiempo-real" id="🎯 comprension-en-tiempo-real" >
+        <select name="comprension-en-tiempo-real" id="comprension-en-tiempo-real" >
             <option value="baja-baja">baja-baja</option>
             <option value="baja-media">baja-media</option>
             <option value="baja-alta">baja-alta</option>
@@ -65,7 +76,7 @@
 
     <section class="compresion-pos-mercado">
         <label id="pos" for="comprension-pos-mercado">compresion del mercado los domingos post semana</label>
-        <select name="comprension-pos-mercado" id="📊 comprension-pos-mercado">
+        <select name="comprension-pos-mercado" id="comprension-pos-mercado">
             <option class="baja" value="baja-baja">baja-baja</option>
             <option class="baja" value="baja-media">baja-media</option>
             <option class="baja" value="baja-alta">baja-alta</option>
@@ -94,14 +105,14 @@
 
         <button onclick="agregarError()">Agregar error</button>
 
-        <ul id="⚠️ lista-errores"></ul>
+        <ul id="lista-errores"></ul>
     </section>
 
     <button onclick="calcularTasaAciertos()">Calcular tasa de aciertos</button>
-    <p id="📈 resultado-tasa"></p>
+    <p id="resultado-tasa"></p>
 
     <button onclick="calcularMargen()">Calcular margen neto</button>
-    <p id="💰 resultado-margen"></p>
+    <p id="resultado-margen"></p>
 
     <button onclick="generarResumen()">Generar resumen final</button>
     <pre id="resumen-final"></pre>
