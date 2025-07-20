@@ -184,7 +184,7 @@ ${errores}`;
 
 function generarImagen() {
     const resumen = document.getElementById("resumen-final");
-    const semana = document.getElementById("📅 semana").value;
+    const semana = document.getElementById("semana").value;
     html2canvas(resumen).then(canvas => {
         const link = document.createElement("a");
         link.download = `resumen_semana_${semana}.png`;
