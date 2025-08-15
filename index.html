@@ -26,6 +26,9 @@
             <option value="5">Semana 5</option>
         </select>
     </section><br>
+    
+    <label for="capital-inicial">Capital inicial ($):</label>
+    <input type="number" id="capital-inicial" placeholder="Ej: 1000" step="any"><br>
 
  <form onsubmit="calcularTotalsuma(); return false;">
     <label>Operaciones ganadas:</label><br>
@@ -55,9 +58,6 @@
 
     <label for="operaciones-breakeven">operaciones en breakeven</label><br>
     <input type="text" id="operaciones-breakeven" placeholder="0.00"><br>
-
-    <label for="cantidad-operaciones">numero de operaciones</label><br>
-    <input type="text" id="cantidad-operaciones" placeholder="0"><br>
 
     <section class="comprension-mercado"><br>
         <label id="real" for="comprension-en-tiempo-real">compresion del mercado en tiempo real</label>
@@ -98,9 +98,12 @@
             <option value="Timing-adelantado">Timing adelantado</option>
             <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
             <option value="Reducir-el-sl-sin-razón-válida">reducir el sl sin razon valida</option>
-            <option value="No-ejecutar">no entrar en la oportunidad</option>
-            <option value="Error-por-vacio-conceptual">no entrar en la oportunidad</option>
-            <option value="Interrupciones-externas">no entrar en la oportunidad</option>
+            <option value="No-ejecutar">No ejecutar</option>
+            <option value="Error-por-vacio-conceptual">Error por vacio conceptual</option>
+            <option value="Interrupciones-externas">Interrupciones externas</option>
+            <option value="Salida-prematura-de-operación-que-llegaría-a-TP">Salida prematura de operación que llegaría a TP</option>
+            <option value="Enfoque/disciplina">Enfoque/disciplina</option>
+
         </select>
 
         <label for="cantidad-error"> Número de veces:</label>
@@ -123,9 +126,6 @@
     <!-- Agrega este botón debajo de "Generar resumen final" -->
     <button onclick="generarImagen()">Descargar imagen del resumen</button>
 
-    <footer>
-        <p>© 2023 Análisis Semanal. Todos los derechos reservados.</p>
-    </footer>
 
 </body>
 

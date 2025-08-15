@@ -3,13 +3,14 @@ body{
     font-family: cursive;
 }
 #resumen-final {
-    background: #f9f9f9;
+    background: #ffffff;
     padding: 20px;
     border-radius: 12px;
     font-family: cursive;
     white-space: pre-wrap;
     line-height: 1.6;
-    border: 1px solid #ccc;
+    border: 2px solid #020200;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.08);
 }
 #resumen-final strong {
     color: #333;
@@ -70,6 +71,11 @@ button:hover {
     background-color: #45a049;
 }
 
+button:active {
+    background-color: #388e3c;
+    transform: scale(0.98);
+}
+
 input, select {
     padding: 10px 12px;
     margin: 8px 0;
@@ -80,9 +86,20 @@ input, select {
     font-size: 15px;
 }
 
+input:focus, select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 4px #4CAF50;
+}
+
 .operaciones-lista {
     margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    padding: 10px 0;
+    background-color: #f1f8e9;
+    border-radius: 6px;
+    font-size: 1.1em;
+    letter-spacing: 1px;
 }
+.resultado-ganancia { color: #2e7d32; font-weight: bold; }
+.resultado-perdida { color: #c62828; font-weight: bold; }
+.resultado-drawdown { color: #ff9800; font-weight: bold; }
