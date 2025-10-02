@@ -119,6 +119,8 @@ function calcularMargen() {
 
 
 function generarResumen() {
+    calcularTasaAciertos()
+    calcularMargen()
     const semana = document.getElementById("semana").value;
     const comprension = document.getElementById("comprension-en-tiempo-real").value;
     const comprensionPos = document.getElementById("comprension-pos-mercado").value;
@@ -170,46 +172,73 @@ function generarResumen() {
     const resultadoTasa = document.getElementById("resultado-tasa")?.innerText || "";
     const errores = Array.from(document.querySelectorAll("#lista-errores li"))
         .map(li => li.textContent)
-        .join("\n");
+        .join("\n") || "Ninguno";
 
     const drawdownTexto = calcularDrawdown();
 
     // Resumen
     const resumen = 
-`📅 Semana: ${semana}
-🎯 Comprensión en tiempo real: ${comprension}
-📊 Comprensión post semana: ${comprensionPos}
+    `📅 Semana: ${semana}
+    🎯 Comprensión en tiempo real: ${comprension}
+    📊 Comprensión post semana: ${comprensionPos}
 
-✅ Ganadas: ${cantidadGanadas} | resultado neto: +${volumenGanadas.toFixed(2)}$
-${detalleGanadas ? 'Detalle ganadas:\n' + detalleGanadas : ''}
+    ✅ Ganadas: ${cantidadGanadas} | resultado neto: +${volumenGanadas.toFixed(2)}$
+    ${detalleGanadas ? 'Detalle ganadas:\n' + detalleGanadas : ''}
 
-❌ Perdidas: ${cantidadPerdidas} | resultado neto: -${volumenPerdidas.toFixed(2)}$
-${detallePerdidas ? 'Detalle perdidas:\n' + detallePerdidas : ''}
+    ❌ Perdidas: ${cantidadPerdidas} | resultado neto: -${volumenPerdidas.toFixed(2)}$
+    ${detallePerdidas ? 'Detalle perdidas:\n' + detallePerdidas : ''}
 
-➖ Breakeven: ${cantidadBreakeven}
-${detalleBreakeven ? 'Detalle breakeven:\n' + detalleBreakeven : ''}
+    ➖ Breakeven: ${cantidadBreakeven}
+    ${detalleBreakeven ? 'Detalle breakeven:\n' + detalleBreakeven : ''}
 
-🔢 Número de operaciones: ${cantidadOperaciones}
+    🔢 Número de operaciones: ${cantidadOperaciones}
+    
+    ${resultadoMargen}
+    ${resultadoTasa}
 
-${resultadoMargen}
+    ${drawdownTexto}
 
-${resultadoTasa}
-
-${drawdownTexto}
-
-⚠️ Errores cometidos:
-${errores}`;
+    ⚠️ Errores cometidos:
+    ${errores}`;
 
     document.getElementById("resumen-final").innerHTML = resumen;
 }
 function generarImagen() {
+    calcularTasaAciertos()
+    calcularMargen()
     const resumen = document.getElementById("resumen-final");
     const semana = document.getElementById("semana").value;
-    html2canvas(resumen).then(canvas => {
-        const link = document.createElement("a");
+    // Crear un contenedor temporal con estilos para exportación
+    const wrapper = document.createElement('div');
+    wrapper.className = 'export-wrap';
+    const clone = document.createElement('div');
+    clone.className = 'export-resumen';
+    // Copiar el texto/HTML del resumen (usar textContent para quitar emojis si se desea)
+    clone.textContent = resumen.textContent || resumen.innerText || resumen.innerHTML;
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
+
+    // Renderizar con mayor escala para mejorar nitidez
+    html2canvas(wrapper, {scale: 2, backgroundColor: null, useCORS: true}).then(canvas => {
+        // Forzar fondo blanco si canvas tiene transparencia
+        const finalCanvas = document.createElement('canvas');
+        finalCanvas.width = canvas.width;
+        finalCanvas.height = canvas.height;
+        const ctx = finalCanvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0,0,finalCanvas.width, finalCanvas.height);
+        ctx.drawImage(canvas, 0, 0);
+
+        const link = document.createElement('a');
         link.download = `resumen_semana_${semana}.png`;
-        link.href = canvas.toDataURL();
+        link.href = finalCanvas.toDataURL('image/png');
         link.click();
+        // limpiar
+        setTimeout(() => document.body.removeChild(wrapper), 400);
+    }).catch(err => {
+        // En caso de error, retirar el wrapper y notificar
+        try { document.body.removeChild(wrapper); } catch(e){}
+        alert('Error al generar la imagen: ' + (err && err.message ? err.message : err));
     });
 }
 function calcularDrawdown() {
@@ -248,11 +277,11 @@ function calcularDrawdown() {
 
     // NUEVO: Mostrar el capital final
     return (
-        `💰 Capital inicial: $${capitalInicial.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br><br>` +
-        `📈 Pico máximo: $${maxCapital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br><br>` +
-        `📉 Capital mínimo después del pico: $${drawdownValle.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br><br>` +
-        `🛑 Drawdown en dólares: $${maxDrawdown.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br><br>` +
-        `🛑 Drawdown en porcentaje: ${drawdownPorcentaje.toFixed(2)}%<br><br>` +
-        `💵 Capital final: $${capital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+        `💰 Capital inicial: $${capitalInicial.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>\n` +
+        `📈 Pico máximo: $${maxCapital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>\n` +
+        `📉 Capital mínimo después del pico: $${drawdownValle.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>\n` +
+        `🛑 Drawdown en dólares: $${maxDrawdown.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>\n` +
+        `🛑 Drawdown en porcentaje: ${drawdownPorcentaje.toFixed(2)}%<br>\n` +
+        `💵 Capital final: $${capital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`
     );
 }

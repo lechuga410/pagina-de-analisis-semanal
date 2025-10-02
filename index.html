@@ -1,133 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>analisis rapidos semanales</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Análisis Semanal — Trading</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <script src="script.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="container header-inner">
+                <div class="brand">
+                    <h1>Analisis semanal</h1>
+                    <p class="tag">Registro y análisis rápido de operaciones</p>
+                </div>
+                <nav class="header-actions">
+                    <button class="btn ghost" onclick="generarImagen()">Descargar resumen</button>
+                </nav>
+            </div>
+        </header>
 
-</head>
+        <main class="container main-grid">
+            <section class="panel form-panel card" aria-labelledby="panel-form">
+                <h2 id="panel-form">Entrada de datos</h2>
 
-<body>
-    <header id="header">
-        <h1>Formulario de análisis semanales</h1>
-    </header>
+                <div class="row">
+                    <label for="semana">Semana</label>
+                    <select id="semana">
+                        <option value="1">Semana 1</option>
+                        <option value="2">Semana 2</option>
+                        <option value="3">Semana 3</option>
+                        <option value="4">Semana 4</option>
+                        <option value="5">Semana 5</option>
+                    </select>
+                </div>
 
+                <div class="row">
+                    <label for="capital-inicial">Capital inicial (USD)</label>
+                    <input type="number" id="capital-inicial" placeholder="Ej: 1000" step="any">
+                </div>
 
-    <section id="campo" class="semana">
-        <label for="semana">Selecciona la semana en la que se encuentra</label><br>
-        <select id="semana">
-            <option value="1">Semana 1</option>
-            <option value="2">Semana 2</option>
-            <option value="3">Semana 3</option>
-            <option value="4">Semana 4</option>
-            <option value="5">Semana 5</option>
-        </select>
-    </section><br>
-    
-    <label for="capital-inicial">Capital inicial ($):</label>
-    <input type="number" id="capital-inicial" placeholder="Ej: 1000" step="any"><br>
+                <form class="ops-row" onsubmit="calcularTotalsuma(); return false;">
+                    <label>Operaciones ganadas</label>
+                    <div class="inline">
+                        <input type="text" id="nueva-operacion" placeholder="Ej: 15.50">
+                        <button type="button" class="btn" onclick="agregarOperacion()">Agregar</button>
+                    </div>
+                    <input type="hidden" id="operaciones-ganadas">
+                    <div id="lista-operaciones" class="operaciones-lista" aria-live="polite"></div>
+                    <div class="small-actions"><button class="btn ghost" type="submit">Calcular total ganadas</button></div>
+                    <p id="resultado" class="muted"></p>
+                </form>
 
- <form onsubmit="calcularTotalsuma(); return false;">
-    <label>Operaciones ganadas:</label><br>
-    <input type="text" id="nueva-operacion" placeholder="Agregar operación">
-    <button type="button" onclick="agregarOperacion()">Agregar operación</button>
-    <input type="hidden" id="operaciones-ganadas">
-    <button type="submit">Calcular total</button>
-    <p id="lista-operaciones"></p>
-    <p id="resultado"></p>
-</form>
+                <form class="ops-row" onsubmit="calcularTotalresta(); return false;">
+                    <label>Operaciones perdidas</label>
+                    <div class="inline">
+                        <input type="text" id="nueva-operacion-perdida" placeholder="Ej: 20.00">
+                        <button type="button" class="btn danger" onclick="agregarOperacionPerdida()">Agregar</button>
+                    </div>
 
-    
-   <form onsubmit="calcularTotalresta(); return false;">
-        <label for="operaciones-perdidas">Operaciones perdidas:</label><br>
+                    <input type="hidden" id="operaciones-perdidas">
+                    <div id="lista-operaciones-perdidas" class="operaciones-lista" aria-live="polite"></div>
+                    <div class="small-actions"><button class="btn ghost" type="submit">Calcular total perdidas</button></div>
+                    <p id="resultado2" class="muted"></p>
+                </form>
 
-        <input type="text" id="nueva-operacion-perdida" placeholder="Agregar operación perdida">
-        <button type="button" onclick="agregarOperacionPerdida()">Agregar operación perdida</button>
+                <div class="row">
+                    <label for="operaciones-breakeven">Operaciones en breakeven</label>
+                    <input type="text" id="operaciones-breakeven" placeholder="0">
+                </div>
 
-       <input type="hidden" id="operaciones-perdidas">
+                <div class="row two-up">
+                    <div>
+                        <label for="comprension-en-tiempo-real">Comprensión (tiempo real)</label>
+                        <select id="comprension-en-tiempo-real">
+                            <option value="baja-baja">baja-baja</option>
+                            <option value="baja-media">baja-media</option>
+                            <option value="baja-alta">baja-alta</option>
+                            <option value="media-baja">media-baja</option>
+                            <option value="media-media">media-media</option>
+                            <option value="media-alta">media-alta</option>
+                            <option value="alta-baja">alta-baja</option>
+                            <option value="alta-media">alta-media</option>
+                            <option value="alta-alta">alta-alta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="comprension-pos-mercado">Comprensión (post semana)</label>
+                        <select id="comprension-pos-mercado">
+                            <option value="baja-baja">baja-baja</option>
+                            <option value="baja-media">baja-media</option>
+                            <option value="baja-alta">baja-alta</option>
+                            <option value="media-baja">media-baja</option>
+                            <option value="media-media">media-media</option>
+                            <option value="media-alta">media-alta</option>
+                            <option value="alta-baja">alta-baja</option>
+                            <option value="alta-media">alta-media</option>
+                            <option value="alta-alta">alta-alta</option>
+                        </select>
+                    </div>
+                </div>
 
+                <fieldset class="errors">
+                    <legend>Errores</legend>
+                    <div class="row two-up">
+                        <div>
+                            <label for="tipo-error">Tipo</label>
+                            <select id="tipo-error">
+                                <option value="Reentrada">Reentrada</option>
+                                <option value="Sobre-complicacion">Sobre complicación</option>
+                                <option value="Timing-adelantado">Timing adelantado</option>
+                                <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
+                                <option value="Reducir-el-sl-sin-razon-valida">reducir el sl sin razon valida</option>
+                                <option value="No-ejecutar">No ejecutar</option>
+                                <option value="Error-por-vacio-conceptual">Error por vacio conceptual</option>
+                                <option value="Interrupciones-externas">Interrupciones externas</option>
+                                <option value="Salida-prematura-de-operacion-que-llegaria-a-TP">Salida prematura</option>
+                                <option value="Enfoque-disciplina">Enfoque/disciplina</option>
+                                <option value="Error-por-analizar-segun-el-sentimiento">Error por sentimiento</option>
+                                <option value="Cambiar-direccion-solo-por-perder">Cambiar direccion</option>
+                                <option value="oportunidad-perdida-por-no-levantarte-temprano">Oportunidad perdida</option>
+                                <option value="No-ver-la-oportunidad">No ver la oportunidad</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="cantidad-error">Veces</label>
+                            <input type="number" id="cantidad-error" min="1" placeholder="Ej: 2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn" type="button" onclick="agregarError()">Agregar error</button>
+                        <ul id="lista-errores" class="error-list"></ul>
+                    </div>
+                </fieldset>
 
-        <button type="submit">Calcular total</button>
+            </section>
 
-        <p id="lista-operaciones-perdidas"></p>
-        <p id="resultado2"></p>
-    </form>
+            <aside class="panel summary-panel card" aria-labelledby="panel-summary">
+                <h2 id="panel-summary">Resumen</h2>
+                <div class="summary-cards">
+                    <div class="summary-item">
+                        <label>Resultado tasa</label>
+                        <div id="resultado-tasa" class="big">--</div>
+                    </div>
+                    <div class="summary-item">
+                        <label>Margen neto</label>
+                        <div id="resultado-margen" class="big">--</div>
+                    </div>
+                </div>
 
-    <label for="operaciones-breakeven">operaciones en breakeven</label><br>
-    <input type="text" id="operaciones-breakeven" placeholder="0.00"><br>
+                <h3>Resumen detallado</h3>
+                <pre id="resumen-final" class="resumen-box">Aquí aparecerá el resumen generado.</pre>
+                <div class="summary-footer">
+                    <button class="btn primary" onclick="generarResumen()">Generar resumen</button>
+                    <button class="btn ghost" onclick="generarImagen()">Descargar imagen</button>
+                </div>
+            </aside>
 
-    <section class="comprension-mercado"><br>
-        <label id="real" for="comprension-en-tiempo-real">compresion del mercado en tiempo real</label>
-        <select name="comprension-en-tiempo-real" id="comprension-en-tiempo-real" >
-            <option value="baja-baja">baja-baja</option>
-            <option value="baja-media">baja-media</option>
-            <option value="baja-alta">baja-alta</option>
-            <option value="media-baja">media-baja</option>
-            <option value="media-media">media-media</option>
-            <option value="media-alta">media-alta</option>
-            <option value="alta-baja">alta-baja</option>
-            <option value="alta-media">alta-media</option>
-            <option value="alta-alta">alta-alta</option>
-        </select>
-    </section><br>
+        </main>
 
-    <section class="compresion-pos-mercado">
-        <label id="pos" for="comprension-pos-mercado">compresion del mercado los domingos post semana</label>
-        <select name="comprension-pos-mercado" id="comprension-pos-mercado">
-            <option class="baja" value="baja-baja">baja-baja</option>
-            <option class="baja" value="baja-media">baja-media</option>
-            <option class="baja" value="baja-alta">baja-alta</option>
-            <option class="media" value="media-baja">media-baja</option>
-            <option class="media" value="media-media">media-media</option>
-            <option class="media" value="media-alta">media-alta</option>
-            <option class="alta" value="alta-baja">alta-baja</option>
-            <option class="alta" value="alta-media">alta-media</option>
-            <option class="alta" value="alta-alta">alta-alta</option>
-        </select>
+        <footer class="site-footer">
+            <div class="container">© <span id="year"></span> Trading - mercados financieros</div>
+        </footer>
 
-    </section><br>
-    
-    <section>
-        <label for="tipo-error">Tipo de error:</label>
-        <select id="tipo-error">
-            <option value="Reentrada">Reentrada</option>
-            <option value="Sobre-complicación">Sobre complicación</option>
-            <option value="Timing-adelantado">Timing adelantado</option>
-            <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
-            <option value="Reducir-el-sl-sin-razón-válida">reducir el sl sin razon valida</option>
-            <option value="No-ejecutar">No ejecutar</option>
-            <option value="Error-por-vacio-conceptual">Error por vacio conceptual</option>
-            <option value="Interrupciones-externas">Interrupciones externas</option>
-            <option value="Salida-prematura-de-operación-que-llegaría-a-TP">Salida prematura de operación que llegaría a TP</option>
-            <option value="Enfoque/disciplina">Enfoque/disciplina</option>
-
-        </select>
-
-        <label for="cantidad-error"> Número de veces:</label>
-        <input type="number" id="cantidad-error" min="1" placeholder="Ej: 2">
-
-        <button onclick="agregarError()">Agregar error</button>
-
-        <ul id="lista-errores"></ul>
-    </section>
-
-    <button onclick="calcularTasaAciertos()">Calcular tasa de aciertos</button>
-    <p id="resultado-tasa"></p>
-
-    <button onclick="calcularMargen()">Calcular margen neto</button>
-    <p id="resultado-margen"></p>
-
-    <button onclick="generarResumen()">Generar resumen final</button>
-    <pre id="resumen-final"></pre>
-
-    <!-- Agrega este botón debajo de "Generar resumen final" -->
-    <button onclick="generarImagen()">Descargar imagen del resumen</button>
-
-
-</body>
-
+        <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    </body>
 
 </html>

@@ -1,105 +1,185 @@
-body{
+
+:root{
+  --bg: #0f1724; /* dark navy */
+  --card: #0b1220;
+ --muted: #9aa4b2;
+  --accent: #2dd4bf; /* teal */
+ --accent-2: #60a5fa; /* blue */
+}
+:root{
+  --bg: #0f1724; /* dark navy */
+  --card: #0b1220;
+  --muted: #9aa4b2;
+  --accent: #2dd4bf; /* teal */
+  --accent-2: #60a5fa; /* blue */
+  --danger: #ffffff;
+  --glass: rgba(255,255,255,0.04);
+  --radius: 10px;
+}
+select option {
+  background-color: #0b1220; /* dark card color */
+  color: #e6eef6; /* light text color */
+  text-align: center;
+}
+input{
     text-align: center;
-    font-family: cursive;
 }
-#resumen-final {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    font-family: cursive;
-    white-space: pre-wrap;
-    line-height: 1.6;
-    border: 2px solid #020200;
-    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.08);
-}
-#resumen-final strong {
-    color: #333;
-}
-body{background-color: beige;
-
-    
-}
-button{border-radius: 10px;
-    background-color: #f9f9f9;
-    
-
+/* Reset and base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  margin:0;
+  background: linear-gradient(180deg,#071025 0%, #071b2a 60%);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
 }
 
-select{border-radius: 10px;
-    
+.container{width:calc(100% - 40px);max-width:1120px;margin:28px auto}
+
+/* Header */
+.site-header{padding:20px 0}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand h1{margin:0;font-size:20px;letter-spacing:0.4px}
+.brand .tag{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.header-actions .btn{margin-left:8px}
+
+/* Layout */
+.main-grid{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+
+.form-panel h2,.summary-panel h2{margin:0 0 12px 0}
+
+.row{margin-bottom:12px}
+.row.two-up{display:flex;gap:12px}
+.row.two-up > div{flex:1}
+
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input[type='text'],input[type='number'],select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+input::placeholder{color:#8b98a6}
+
+.inline{display:flex;gap:8px}
+.inline input{flex:1}
+
+.operaciones-lista{padding:8px;border-radius:8px;background:var(--glass);font-size:13px;color:var(--muted);min-height:34px}
+.error-list{margin-top:8px;padding-left:18px;color:var(--muted)}
+.error-list{
+    text-align: center;
+    list-style: none;
+}
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+/* Quitar flechas de input number */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
+/* Esto es clave para quitar las flechas en Chrome/Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+.actions-row{display:flex;gap:10px;flex-wrap:wrap}
+
+.summary-cards{display:flex;gap:12px;margin-bottom:12px}
+.summary-item{flex:1;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;text-align:left}
+.summary-item label{font-size:12px}
+.big{font-weight:600;font-size:18px}
+
+.resumen-box{background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));padding:12px;border-radius:8px;color:#e6eef6;white-space:pre-wrap;min-height:150px;overflow:auto}
+
+.summary-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));color:inherit;cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#02111a;border:none}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn.danger{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn:hover{transform:translateY(-2px)}
+
+.muted{color:var(--muted);font-size:13px}
+
+.card h3{margin-top:10px}
+
+.small-actions{margin-top:8px}
+
+/* Footer */
+.site-footer{Padding:18px 0;text-align:center;color:var(--muted);font-size:13px}
+
+@media (max-width:960px){
+  .main-grid{grid-template-columns:1fr}
+  .header-inner{flex-direction:column;align-items:flex-start;gap:12px}
 }
 
-section {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+/* Accessibility focus */
+input:focus,select:focus,.btn:focus{outline:3px solid rgba(45,212,191,0.12);outline-offset:2px}
+/* Estilos específicos para exportar el resumen a imagen
+   Usados temporalmente por script.js al clonar el contenido */
+   /* Estilos específicos para exportar el resumen a imagen
+   Usados temporalmente por script.js al clonar el contenido */
+.export-wrap{
+  position:fixed;
+  left:50%;
+  top:30px;
+  transform:translateX(-50%);
+  width:800px;
+  max-width:95%;
+  background:#ffffff;
+  color:#000000;
+  padding:24px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+  z-index:99999;
+  font-family: 'Inter', Arial, sans-serif;
+}
+.export-resumen{
+  background:transparent;
+  color:#000000;
+  font-size:15px;
+  line-height:1.45;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-button {
-    padding: 10px 20px;
-    margin: 8px 0;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
+/* Estilos específicos para exportar el resumen a imagen
+   Usados temporalmente por script.js al clonar el contenido */
+.export-wrap{
+  text-align: center;
+  position:fixed;
+  left:50%;
+  top:30px;
+  transform:translateX(-50%);
+  width:800px;
+  max-width:95%;
+  background:#ffffff;
+  color:#000000;
+  padding:24px;
+  border-radius:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+  z-index:99999;
+  font-family: 'Inter', Arial, sans-serif;
+}
+.export-resumen{
+  background:transparent;
+  color:#000000;
+  font-size:15px;
+  line-height:1.45;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-button:hover {
-    background-color: #45a049;
-}
-
-button:active {
-    background-color: #388e3c;
-    transform: scale(0.98);
-}
-
-input, select {
-    padding: 10px 12px;
-    margin: 8px 0;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 15px;
-}
-
-input:focus, select:focus {
-    border-color: #4CAF50;
-    outline: none;
-    box-shadow: 0 0 4px #4CAF50;
-}
-
-.operaciones-lista {
-    margin-top: 10px;
-    padding: 10px 0;
-    background-color: #f1f8e9;
-    border-radius: 6px;
-    font-size: 1.1em;
-    letter-spacing: 1px;
-}
-.resultado-ganancia { color: #2e7d32; font-weight: bold; }
-.resultado-perdida { color: #c62828; font-weight: bold; }
-.resultado-drawdown { color: #ff9800; font-weight: bold; }
+/* Small utility */
+.danger{color:var(--danger)}
+ 
